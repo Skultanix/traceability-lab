@@ -6,6 +6,17 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
+var Rollbar = require('rollbar')
+var rollbar = new Rollbar({
+  accessToken: '2487fee72e5a47ee9f197458d653ff5c',
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+})
+
+// record a generic message and send it to Rollbar
+rollbar.log('Hello world!')
+
+///Endpoint setup
 app.get("/", function (req,res){
     res.sendFile(path.join(__dirname,"index.html"))
 })
@@ -14,7 +25,7 @@ app.get("/styles", function(req, res){
     res.sendFile(path.join(__dirname,"index.css"))
 })
 
-app.get("/", function (req,res){
+app.get("/script", function (req,res){
     res.sendFile(path.join(__dirname,"controller.js"))
 })
 
@@ -23,7 +34,8 @@ const port = process.env.PORT || 3400
 app.listen(port, () => {
     console.log(`Port ${port} locked and loaded.`)
 })
-//
+
+//functions
 const messages = []
 
 app.post(`/api/addMessage`, (req, res) => {
