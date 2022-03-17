@@ -23,3 +23,36 @@ const port = process.env.PORT || 3400
 app.listen(port, () => {
     console.log(`Port ${port} locked and loaded.`)
 })
+//
+const messages = []
+
+app.post(`/api/addMessage`, (req, res) => {
+  console.log(req.body)
+  const {newMessage} = req.body
+
+  messages.push(newMessage)
+  res.status(200).send(newMessage)
+})
+
+
+app.delete(`/api/delete/:num`, (req, res) => {
+  console.log(req.params)
+
+  if(+req.params.num) {
+    messages.splice(req.params.num - 1, 1)
+    res.status(200).send(messages)
+  } else {
+    res.status(400).send("A number was not inputed.")
+}
+console.log(messages)
+})
+
+app.put(`/api/update/:num`, (req, res) => {
+  const {updatePost} = req.body
+  const updateNum = req.params.num - 1
+
+  messages[updateNum] = updatePost
+
+  res.status(200).send(updatePost)
+  console.log(messages)
+})
