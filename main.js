@@ -57,8 +57,8 @@ app.delete(`/api/delete/:num`, (req, res) => {
     res.status(200).send(messages)
     rollbar.log('Message was successfully deleted.')
   } else {
-    res.status(400).send("A number was not inputed.")
     rollbar.error("User failed to input a post number for deletion")
+    res.status(400).send("A number was not inputed.")
 }
 console.log(messages)
 })
