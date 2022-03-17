@@ -1,6 +1,7 @@
 let newElemNum = 1
 
-const baseURL = "https://f19-rollbar-demo-skul.herokuapp.com/" || "http://localhost:5050"
+const baseURL = "https://f19-traceability-lab-skul.herokuapp.com/" || "http://localhost:3400"
+
 const messageInput = document.getElementById(`messageBox`)
 const addMessageButton = document.getElementById(`postMessage`)
 const postArea = document.getElementById("messageArea")
