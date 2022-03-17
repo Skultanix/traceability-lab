@@ -18,6 +18,7 @@ rollbar.log('Hello world!')
 
 ///Endpoint setup
 app.get("/", function (req,res){
+    rollbar.info("HTML has served successfully")
     res.sendFile(path.join(__dirname,"index.html"))
 })
 
@@ -40,6 +41,7 @@ const messages = []
 
 app.post(`/api/addMessage`, (req, res) => {
   console.log(req.body)
+  rollbar.log('Message added successfully.', {author: "Caleb", type: "manual entry"})
   const {newMessage} = req.body
 
   messages.push(newMessage)
@@ -53,8 +55,10 @@ app.delete(`/api/delete/:num`, (req, res) => {
   if(+req.params.num) {
     messages.splice(req.params.num - 1, 1)
     res.status(200).send(messages)
+    rollbar.log('Message was successfully deleted.')
   } else {
     res.status(400).send("A number was not inputed.")
+    rollbar.error("User failed to input a post number for deletion")
 }
 console.log(messages)
 })
@@ -66,5 +70,8 @@ app.put(`/api/update/:num`, (req, res) => {
   messages[updateNum] = updatePost
 
   res.status(200).send(updatePost)
+  rollbar.log("Message updated successfully.")
   console.log(messages)
 })
+
+app.use(rollbar.errorHandler())
